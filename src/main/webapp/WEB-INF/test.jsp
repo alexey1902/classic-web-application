@@ -79,3 +79,85 @@
 
 </body>
 </html>
+
+
+<%-- <div class="container">
+          <div class="row align-items-start">
+      <div class="col"><button type="button" class="btn btn-primary">Like</button></div>
+      <div class="col"><button type="button" class="btn btn-primary">Comment</button></div>
+      <div class="col"><button type="button" class="btn btn-primary">Edit</button></div></div></div>--%>
+
+<%--</div>--%>
+
+<%--<div class="card-body">
+    <c:forEach items="${posts}" var="post">
+        <tr>
+            <td>${post.title}</td>
+            <td>${post.description}</td>
+        </tr>
+    </c:forEach>
+</div>--%>
+<%--<div class="row d-flex justify-content-center align-items-center h-25 container">--%>
+
+<form:form id="edit" action="/edit/${user_id}/${post.id}" method="get"></form:form>
+<%-- <button type="submit" class="btn btn-outline-primary" formaction="/edit/${post.id}">Edit</button>--%>
+<button form="edit" type="submit" class="btn btn-outline-primary">Edit</button>
+
+
+
+/*    @GetMapping("/edit/{post_id}")
+public String editPost(@PathVariable long post_id, Model model){
+Post post = postRepository.getById(post_id);
+model.addAttribute("post", post);
+return "edit_post";
+}*/
+
+
+/*
+@PostMapping("/edit/{post_id}")
+public String editPost(@ModelAttribute("post") Post post, @PathVariable long post_id){
+Post postToUpdate = postRepository.getById(post_id);
+postToUpdate.setTitle(post.getTitle());
+postToUpdate.setDescription(post.getDescription());
+postRepository.save(postToUpdate);
+return "redirect:/home";
+}
+*/
+
+
+/* @Column(name = "local_date_time", nullable = false)
+@JsonFormat(pattern = ("yyyy-MM-dd HH:mm:ss"))
+private LocalDateTime localDateTime;*/
+
+/*
+@PostMapping("/edit/{user_id}/{post_id}")
+public String editPost(@ModelAttribute("post") Post post, @PathVariable long post_id, @PathVariable long user_id){
+Post postToUpdate = postRepository.getById(post_id);
+postToUpdate.setTitle(post.getTitle());
+postToUpdate.setDescription(post.getDescription());
+postRepository.save(postToUpdate);
+return "redirect:/show-posts/" + postToUpdate.getPostOwner().getId();
+}
+*/
+
+
+/*
+@GetMapping("/create-post/{user_id}")
+public String newPost(@PathVariable long user_id, @ModelAttribute("post") Post post, Model model){
+//model.addAttribute("user", userRepository.getById(user_id));
+model.addAttribute("post", post);
+return "create_post";
+}
+*/
+
+
+/*    @GetMapping("/create-post/{user_id}")
+public String newPost(@ModelAttribute("post") Post post, @PathVariable long user_id){
+return "create_post";
+}
+
+@PostMapping("/create-post/{user_id}")
+public String createPost(@ModelAttribute("post") Post post, @PathVariable long user_id){
+modification.create(user_id, post);
+return "redirect:/home";
+}*/

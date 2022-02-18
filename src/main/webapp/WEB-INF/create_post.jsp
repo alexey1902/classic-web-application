@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <title>Create Post</title>
@@ -36,6 +37,10 @@
                                 name="title" placeholder="Заголовок" value="${post.title}"/>
                 </form:label>
             </li>
+
+            <sec:authentication property="principal.id" var="user_id_test"/>
+
+
             <li class="list-group-item" style="height: 10rem;">
                 <form:label path="description" class="form-label">
                     <form:input path="description" type="text" id="typeTextX-3"

@@ -1,16 +1,16 @@
 package classic.repository;
 
+import classic.model.Comment;
 import classic.model.Post;
-import classic.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Post> findAllByPostOwner(User owner);
+    List<Comment> findAllByRelatedPost(Post relatedPost);
 
-    void deleteById(long post_id);
+    void deleteById(long comment_id);
 }

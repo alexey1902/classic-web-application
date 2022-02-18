@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +24,19 @@ public class Post {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ManyToOne
-    private User postOwner;
-
     @Column(name = "description", nullable = false)
     private String description;
-/*
-    @Column(name = "local_date", nullable = false)
-    private LocalDate localDate;
 
-    @OneToMany
-    private List<User> likes = new ArrayList<>();
+    @Column(name = "local_date_time", columnDefinition = "DATETIME", nullable = false)
+    private LocalDateTime localDate = LocalDateTime.now();
 
-    @OneToMany
-    private List<Comment> comments = new ArrayList<>();*/
+    @OneToMany(mappedBy = "likedPost", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "relatedPost", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User postOwner;
+
 }

@@ -1,9 +1,7 @@
 package classic.controller;
 
 import classic.model.Post;
-import classic.model.User;
-import classic.repository.PostRepository;
-import classic.repository.UserRepository;
+import classic.service.Modification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,26 +13,44 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class PostController {
 
-    private final PostRepository postRepository;
-    private final UserRepository userRepository;
+    private final Modification<Post> modification;
 
     @Autowired
-    public PostController(PostRepository postRepository, UserRepository userRepository){
-        this.postRepository = postRepository;
-        this.userRepository = userRepository;
+    public PostController(Modification<Post> modification){
+        this.modification = modification;
     }
 
-    @GetMapping("/create-post/{user_id}")
-    public String newPost(@PathVariable long user_id, @ModelAttribute("post") Post post, Model model){
-        model.addAttribute("user", userRepository.getById(user_id));
+    @GetMapping("/show-posts/{user_id}")
+    public String newPost(@PathVariable long user_id, Model model){
+        model.addAttribute("posts", modification.getObjects(user_id));
+        return "show_posts";
+    }
+
+    @GetMapping("/delete/{post_id}")
+    public String deletePost(@PathVariable long post_id){
+        return "redirect:/show-posts/" + modification.delete(post_id);
+    }
+
+    @GetMapping("/create-post")
+    public String newPost(@ModelAttribute("post") Post post){
         return "create_post";
     }
 
-    @PostMapping("/create-post/{user_id}")
-    public String createPost(@ModelAttribute("post") Post post, @PathVariable long user_id){
-        User owner = userRepository.getById(user_id);
-        post.setPostOwner(owner);
-        postRepository.save(post);
+    @GetMapping("/edit/{post_id}")
+    public String editPost(@PathVariable long post_id, Model model){
+        model.addAttribute("post", modification.getObject(post_id));
+        return "edit_post";
+    }
+
+    @PostMapping("/create-post")
+    public String createPost(@ModelAttribute("post") Post post){
+        modification.create(post);
         return "redirect:/home";
     }
+
+    @PostMapping("/edit/{post_id}")
+    public String editPost(@ModelAttribute("post") Post post, @PathVariable long post_id){
+        return "redirect:/show-posts/" + modification.edit(post_id, post);
+    }
+
 }

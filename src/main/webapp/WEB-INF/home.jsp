@@ -20,12 +20,13 @@
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02" >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Мои Посты</a></li>
+        <sec:authorize access="isAuthenticated()">
+          <sec:authentication property="principal.id" var="user_id"/>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="<c:url value="/show-posts/${user_id}"/>">Мои Посты</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Друзья</a> </li>
-       <sec:authorize access="isAuthenticated()">
-        <sec:authentication property="principal.id" var="user_id"/>
-        <li class="nav-item"><a class="nav-link" href="<c:url value="/create-post/${user_id}"/>">Создать пост</a> </li>
-       </sec:authorize>
+       <%-- <li class="nav-item"><a class="nav-link" href="<c:url value="/create-post/${user_id}"/>">Создать пост</a> </li>
+--%>        <li class="nav-item"><a class="nav-link" href="<c:url value="/create-post"/>">Создать пост</a> </li>
+        </sec:authorize>
       </ul>
       <div>
         <form class="d-flex" style="position: relative; top: 8px; left: -10%;">
